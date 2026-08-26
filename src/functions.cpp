@@ -6,13 +6,6 @@
 
 const double EPSILON = 1e-5;
 
-enum ROOTS {
-    INF_ROOTS = -1,
-    ZERO_ROOTS = 0,
-    ONE_ROOT = 1,
-    TWO_ROOTS = 2,
-};
-
 
 bool is_equal(const double num1, const double num2) {
     return fabs(num1 - num2) < EPSILON;
@@ -121,9 +114,8 @@ void get_quadratic_equation_coefficients(struct QuadraticEquation* equation) {
     int succesfull_count = scanf("%lf %lf %lf", &equation->quadratic_c, &equation->linear_c, &equation->free_c);
     while (succesfull_count != 3) {
         printf("Please, re-enter  a equation coefficients (ax^2 + bx + c = 0) without any trash: ");
-        while (getchar() != '\n') {
-            continue;
-        }
+        clear_buffer();
+
         succesfull_count = scanf("%lf %lf %lf", &equation->quadratic_c, &equation->linear_c, &equation->free_c);
     }
 

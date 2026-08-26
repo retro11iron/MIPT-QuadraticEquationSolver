@@ -6,19 +6,12 @@
 
 const int DEFAULT_TESTS_COUNT = 10;
 const int MAX_STR_LEN = 256;
-const long MAX_STR_COUNT = 1e9;
+const long MAX_STR_COUNT = 1e8;
 const char* DB_FILE_ADDRES = "./db/equations.txt";
 
 enum MEMORY_STATUS {
     MEMORY_SUCCESS = 0,
     MEMORY_FAIL = 1,
-};
-
-enum ROOTS {
-    INF_ROOTS = -1,
-    ZERO_ROOTS = 0,
-    ONE_ROOT = 1, 
-    TWO_ROOTS = 2,
 };
 
 enum CASES {
@@ -37,14 +30,12 @@ const struct QuadraticEquation test_equations[DEFAULT_TESTS_COUNT] = {{1, -5, 6,
                                                 };
 
 
-// int tests_results[MAX_STR_COUNT + 1];
 int* tests_results = nullptr;
 // test_results[0] is a count of all tests
 
-
-int allocate_memory_for_tests_results(int all_tests_count);
 void run_user_tests(FILE* file_pointer, int default_tests_count, int user_tests_count);
 void run_default_tests(const struct QuadraticEquation test_equations[]);
+int allocate_memory_for_tests_results(int all_tests_count);
 int get_user_tests_count(FILE* file_pointer);
 void print_summary(int* test_results);
 void run_tests(int option);
@@ -56,13 +47,11 @@ int main() {
 
     printf("Quadratic equation solve tester v0.8 \n");
 
-
     int option = get_option_from_user(); 
     run_tests(option);
     print_summary(tests_results);
     free(tests_results);
 
-    
     return 0;
 }
 
@@ -102,8 +91,6 @@ void run_default_tests(const struct QuadraticEquation test_equations[]) {
         tests_results[i + 1] = run_test(&test_equations[i], i + 1);
     }
 
-    // tests_results[0] += TEST_COUNT;
-
     return ;
 }
 
@@ -115,6 +102,7 @@ void run_user_tests(FILE* file_pointer, int default_tests_count, int user_tests_
     printf("Starting users tests... \n \n");
     while ((fgets(line, MAX_STR_LEN, file_pointer) != NULL) && (i <= user_tests_count)) {
         struct QuadraticEquation test_equation;
+
         int succesfull_count = sscanf(line, "%lf %lf %lf %lf %lf %d", &test_equation.quadratic_c, &test_equation.linear_c,
                                     &test_equation.free_c, &test_equation.x1, &test_equation.x2, &test_equation.root_count);
         
@@ -130,8 +118,6 @@ void run_user_tests(FILE* file_pointer, int default_tests_count, int user_tests_
         i++;
     }
 
-    // tests_results[0] += i;
-
     return ;
 }
 
@@ -143,14 +129,16 @@ void run_tests(int option) {
         break;
         printf("No tests to run. Exiting... \n");
     }
-    case ONLY_DEFAULT_TESTS:
+    case ONLY_DEFAULT_TESTS: {
         if (allocate_memory_for_tests_results(DEFAULT_TESTS_COUNT) == MEMORY_SUCCESS) {
             run_default_tests(test_equations);
         }
         break;
+    }
     case ONLY_USERS_TESTS: {
         FILE* file_pointer = fopen(DB_FILE_ADDRES, "r");
         int user_tests_count = get_user_tests_count(file_pointer);
+
         if (allocate_memory_for_tests_results(user_tests_count) == MEMORY_SUCCESS) {
             run_user_tests(file_pointer, 0, user_tests_count);
         }
@@ -159,8 +147,8 @@ void run_tests(int option) {
     }
     case ALL_TESTS: {
         FILE* file_pointer = fopen(DB_FILE_ADDRES, "r");
-
         int user_tests_count = get_user_tests_count(file_pointer);
+
         if (allocate_memory_for_tests_results(user_tests_count + DEFAULT_TESTS_COUNT) == MEMORY_SUCCESS) {
             run_default_tests(test_equations);
             run_user_tests(file_pointer, DEFAULT_TESTS_COUNT, user_tests_count);
@@ -181,10 +169,12 @@ int get_option_from_user() {
 
     printf("Hi! Do you want to include default test equations? [Y/N] ");
     char answer_1 = ' ';
+
     if (scanf("%c", &answer_1) && (answer_1 == 'Y')) {
-        char answer_2 = ' ';
         printf("Okay. Do you want to include test equations from file (equations.txt)? [Y/N] ");
+        char answer_2 = ' ';
         clear_buffer();
+        
         if (scanf("%c", &answer_2) && (answer_2 == 'Y')) {
             printf("\nGot it. Starting all tests... \n \n");
             return ALL_TESTS;
@@ -195,8 +185,9 @@ int get_option_from_user() {
     }
     else {
         printf("\nOkay. Do you want to include test equations from file (equations.txt)? [Y/N] ");
-        clear_buffer();
         char answer_3 = ' ';
+        clear_buffer();
+
         if (scanf("%c", &answer_3) && (answer_3 == 'Y')) {
             printf("Got it. Starting users tests... \n \n");
             return ONLY_USERS_TESTS;
@@ -206,6 +197,27 @@ int get_option_from_user() {
         }
     }
 
+}
+
+
+int get_user_tests_count(FILE* file_pointer) {
+    int user_tests_count = 0;
+    char line[MAX_STR_LEN] = "";
+
+    if (fgets(line, MAX_STR_LEN, file_pointer) != NULL) {
+        int succesfull_count = sscanf(line, "%d", &user_tests_count);
+        if (succesfull_count == 1) {
+            return user_tests_count;
+        }
+        else {
+            printf("Unable to read a tests count from file. Exiting... \n");
+            return user_tests_count;
+        }
+    }
+    else {
+        printf("Unable to read a db file (equations.txt). Exiting... \n");
+        return user_tests_count;
+    }
 }
 
 
@@ -222,15 +234,6 @@ void print_summary(int* test_results) {
         } else {
             printf("Test %d      Succesfull \n", i);
         }
-    }
-
-    return ;
-}
-
-
-void clear_buffer() {
-    while (getchar() != '\n') {
-        continue;
     }
 
     return ;
@@ -255,22 +258,11 @@ int allocate_memory_for_tests_results(int all_tests_count) {
     }
 }
 
-int get_user_tests_count(FILE* file_pointer) {
-    int user_tests_count = 0;
-    char line[MAX_STR_LEN] = "";
 
-    if (fgets(line, MAX_STR_LEN, file_pointer) != NULL) {
-        int succesfull_count = sscanf(line, "%d", &user_tests_count);
-        if (succesfull_count == 1) {
-            return user_tests_count;
-        }
-        else {
-            printf("Unable to read a tests count from file. Exiting... \n");
-            return user_tests_count;
-        }
+void clear_buffer() {
+    while (getchar() != '\n') {
+        continue;
     }
-    else {
-        printf("Unable to read a db file (equations.txt). Exiting... \n");
-        return user_tests_count;
-    }
+
+    return ;
 }

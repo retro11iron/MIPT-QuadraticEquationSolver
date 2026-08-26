@@ -10,4 +10,11 @@ struct QuadraticEquation {
     int root_count;
 };
 
+enum ROOTS {
+    INF_ROOTS = -1,
+    ZERO_ROOTS = 0,
+    ONE_ROOT = 1, 
+    TWO_ROOTS = 2,
+};
+
 #endif

@@ -1,5 +1,5 @@
-#ifndef MYSTRUCTS_H
-#define MYSTRUCTS_H
+#ifndef COMMON_H
+#define COMMON_H
 
 struct QuadraticEquation {
     double quadratic_c;

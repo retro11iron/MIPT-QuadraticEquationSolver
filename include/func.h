@@ -8,7 +8,7 @@ void            solve_quadratic_equation(struct QuadraticEquation* equation);
 void               solve_linear_equation(struct QuadraticEquation* equation);
 void                   print_roots(const struct QuadraticEquation* equation);
 bool is_equal(double num1, double num2);
-void swap(double* num1, double* num2);
+void   swap(double* num1, double* num2);
 void clear_buffer();
 int call_tests(int option);
 

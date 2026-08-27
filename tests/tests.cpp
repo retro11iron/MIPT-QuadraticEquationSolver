@@ -37,7 +37,7 @@ int get_option_from_user();
 
 int call_tests(int option) {
 
-    printf("Quadratic equation solve tester v0.8 \n");
+    //printf("Quadratic equation solve tester v0.8 \n");
 
     // int option = get_option_from_user(); 
     run_tests(option);
@@ -59,15 +59,15 @@ int run_test(const struct QuadraticEquation* equation, int test_index) {
     if (equation->root_count == test_equation.root_count
         && is_equal(equation->x1, test_equation.x1)
         && is_equal(equation->x2, test_equation.x2)) {
-        printf("Test %d succesfully passed. \n \n", test_index);
+        printf("\033[32mTest %d succesfully passed. \033[0m\n \n", test_index);
         return 1;
         }
     else {
-        printf("Test %d failed. \n", test_index);
+        printf("\033[31mTest %d failed. \n", test_index);
         printf("%lg * x^2  %lg * x  %lg \n", equation->quadratic_c, equation->linear_c, equation->free_c);
         printf("Expected: x1 = %lg x2 = %lg root_count = %d \n",
                 equation->x1, equation->x2, equation->root_count);
-        printf("Got: x1 = %lg x2 = %lg root_count = %d \n \n", 
+        printf("Got: x1 = %lg x2 = %lg root_count = %d \033[0m\n \n", 
                 test_equation.x1, test_equation.x2, test_equation.root_count);
         return 0;
     }
@@ -99,7 +99,7 @@ void run_user_tests(FILE* file_pointer, int default_tests_count, int user_tests_
                                     &test_equation.free_c, &test_equation.x1, &test_equation.x2, &test_equation.root_count);
         
         if (succesfull_count != 6) {
-            printf("Unable to read coefficients in line %d (Test %d) \n \n", i + 1, i + default_tests_count);
+            printf("\033[31mUnable to read coefficients in line %d (Test %d) \033[0m \n \n", i + 1, i + default_tests_count);
         }
         else {
             if ((test_equation.root_count == 2) && (test_equation.x1 > test_equation.x2)) {
@@ -202,12 +202,12 @@ int get_user_tests_count(FILE* file_pointer) {
             return user_tests_count;
         }
         else {
-            printf("Unable to read a tests count from file. Exiting... \n");
+            printf("\033[31mUnable to read a tests count from file. Exiting... \033[0m\n");
             return user_tests_count;
         }
     }
     else {
-        printf("Unable to read a db file (equations.txt). Exiting... \n");
+        printf("\033[31mUnable to read a db file (test_equations.txt). Exiting... \033[0m\n");
         return user_tests_count;
     }
 }
@@ -222,12 +222,12 @@ void print_summary(int* test_results) {
 
     int tests_count = test_results[0];
 
-    printf("Summary: \nTest_Index  Test_result \n");
+    printf("\033[45;1mSummary:\033[0m \n\033[45;1mTest_Index\033[0m  \033[45;1mTest_result\033[0m\n");
     for (int i = 1; i < tests_count + 1; i++) {
         if (test_results[i] == 0) {
-            printf("Test %d      Failed \n", i);
+            printf("\033[31mTest %d      Failed\033[0m \n", i);
         } else {
-            printf("Test %d      Succesfull \n", i);
+            printf("\033[32mTest %d      Succesfull\033[0m \n", i);
         }
     }
 

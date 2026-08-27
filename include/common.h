@@ -17,4 +17,11 @@ enum ROOTS {
     TWO_ROOTS = 2,
 };
 
+enum CASES {
+    NO_TESTS = 0,
+    ONLY_DEFAULT_TESTS = 1,
+    ONLY_USERS_TESTS = 2,
+    ALL_TESTS = 3,
+};
+
 #endif

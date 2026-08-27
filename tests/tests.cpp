@@ -7,18 +7,11 @@
 const int DEFAULT_TESTS_COUNT = 10;
 const int MAX_STR_LEN = 256;
 const long MAX_STR_COUNT = 1e8;
-const char* DB_FILE_ADDRES = "./db/equations.txt";
+const char* DB_FILE_ADDRES = "./db/test_equations.txt";
 
 enum MEMORY_STATUS {
     MEMORY_SUCCESS = 0,
     MEMORY_FAIL = 1,
-};
-
-enum CASES {
-    NO_TESTS = 0,
-    ONLY_DEFAULT_TESTS = 1,
-    ONLY_USERS_TESTS = 2,
-    ALL_TESTS = 3,
 };
 
 
@@ -40,14 +33,13 @@ int get_user_tests_count(FILE* file_pointer);
 void print_summary(int* test_results);
 void run_tests(int option);
 int get_option_from_user();
-void clear_buffer();
 
 
-int main() {
+int call_tests(int option) {
 
     printf("Quadratic equation solve tester v0.8 \n");
 
-    int option = get_option_from_user(); 
+    // int option = get_option_from_user(); 
     run_tests(option);
     print_summary(tests_results);
     free(tests_results);
@@ -126,8 +118,8 @@ void run_tests(int option) {
 
     switch (option) {
     case NO_TESTS: {
+        printf("No tests will be started... \n");
         break;
-        printf("No tests to run. Exiting... \n");
     }
     case ONLY_DEFAULT_TESTS: {
         if (allocate_memory_for_tests_results(DEFAULT_TESTS_COUNT) == MEMORY_SUCCESS) {
@@ -223,7 +215,10 @@ int get_user_tests_count(FILE* file_pointer) {
 
 void print_summary(int* test_results) {
     
-    assert(test_results != nullptr);
+    // assert(test_results != nullptr);
+    if (test_results == nullptr) {
+        return ;
+    }
 
     int tests_count = test_results[0];
 
@@ -245,10 +240,10 @@ int allocate_memory_for_tests_results(int all_tests_count) {
     assert(all_tests_count < MAX_STR_COUNT);
 
     tests_results = (int *)calloc(all_tests_count + 1, sizeof(int));
-    printf("Size of tests_results is %ld \n", sizeof(tests_results));
-    printf("All tests count is ... %d", all_tests_count);
+    // printf("Size of tests_results is %ld \n", sizeof(tests_results));
+    printf("All tests count is %d \n", all_tests_count);
 
-    if (tests_results != NULL) {
+    if (tests_results != nullptr) {
         tests_results[0] = all_tests_count;
         return MEMORY_SUCCESS;
     }
@@ -256,13 +251,4 @@ int allocate_memory_for_tests_results(int all_tests_count) {
         printf("Unable to allocate memory. Please check your data or try again... \n");
         return MEMORY_FAIL;
     }
-}
-
-
-void clear_buffer() {
-    while (getchar() != '\n') {
-        continue;
-    }
-
-    return ;
 }

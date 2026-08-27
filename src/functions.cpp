@@ -87,19 +87,19 @@ void print_roots(const struct QuadraticEquation* equation) {
 
     switch (equation->root_count) {
     case INF_ROOTS:
-        printf("Infinity roots");
+        printf("Infinity roots \n");
         break;
     case ZERO_ROOTS:
-        printf("No roots :(");
+        printf("No roots :(\n");
         break;
     case ONE_ROOT:
-        printf("x = %lg", equation->x1);
+        printf("x = %lg \n", equation->x1);
         break;
     case TWO_ROOTS:
-        printf("x1 = %lg, x2 = %lg", equation->x1, equation->x2);
+        printf("x1 = %lg, x2 = %lg \n", equation->x1, equation->x2);
         break;
     default:
-        printf("Unexpected behaviour! Please contact support or devs");
+        printf("Unexpected behaviour! Please contact support or devs \n");
         break;
     }
 }
@@ -131,6 +131,15 @@ void swap(double* num1, double* num2) {
     double tmp = *num1;
     *num1 = *num2;
     *num2 = tmp;
+
+    return ;
+}
+
+
+void clear_buffer() {
+    while (getchar() != '\n') {
+        continue;
+    }
 
     return ;
 }

@@ -130,7 +130,11 @@ void get_quadratic_equation_coefficients(struct QuadraticEquation* equation) {
 }
 
 
-void get_args(int argc, char* argv[], int* test_case, char* user_db_file) {
+void get_args(const int argc, const char* const argv[], int* test_case, const char* user_db_file) {
+
+    assert(test_case != nullptr);
+    // assert(user_db_file != nullptr);
+
     if (argc > MAX_ARGC) {
         printf("Too many arguments for this program... Please check documents. \n");
         return ;
@@ -144,7 +148,7 @@ void get_args(int argc, char* argv[], int* test_case, char* user_db_file) {
             switch (character) {
             case 't':
                 if (i < argc - 1) {
-                    char* input_test_case = argv[++i];
+                    const char* input_test_case = argv[++i];
                     if (!strcmp(input_test_case, ALL_TESTS_STRING))
                         *test_case = ALL_TESTS;
                     else if (!strcmp(input_test_case, DEFAULT_TESTS_STRING))
@@ -159,9 +163,11 @@ void get_args(int argc, char* argv[], int* test_case, char* user_db_file) {
                     *test_case = ALL_TESTS;
                 }
                 break;
+            case '\0':
+                printf("After '-' must be an argument. Available arguments: t \n");
+                break;
             default:
-                printf("Unexpected %c argument after -: available arguments: t \n", character);
-                return ;
+                printf("Unexpected %c argument after -. Available arguments: t \n", character);
                 break;
             }
         }
@@ -173,8 +179,14 @@ void get_args(int argc, char* argv[], int* test_case, char* user_db_file) {
         }
     }
 
-    printf("User db file is %s \n", user_db_file);
-    printf("User test case is %d \n", *test_case);
+    if (user_db_file != nullptr) {
+        printf("User db file is %s \n", user_db_file);
+        printf("User test case is %d \n", *test_case);
+    }
+    else {
+        printf("No user file is given... \n");
+        printf("User test case is %d \n", *test_case);
+    }
 
     return ;
 }

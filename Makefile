@@ -1,7 +1,11 @@
 PROJECT_NAME = solver.exe
 
+.PHONY : clean debug release
 
-$(PROJECT_NAME) : ./obj/main.o ./obj/functions.o ./obj/tests.o
+debug : ./obj/main.o ./obj/functions.o ./obj/tests.o
+	g++ ./obj/main.o ./obj/functions.o ./obj/tests.o -o $(PROJECT_NAME) -fsanitize=address -g
+
+release : ./obj/main.o ./obj/functions.o ./obj/tests.o
 	g++ ./obj/main.o ./obj/functions.o ./obj/tests.o -o $(PROJECT_NAME)
 
 ./obj/main.o : ./src/main.cpp

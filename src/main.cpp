@@ -3,10 +3,10 @@
 #include <stdio.h>
 
 
-int main(int argc, char* argv[]) {
+int main(const int argc, const char* const argv[]) {
 
     int test_case = NO_TESTS;
-    char* user_db_file = nullptr;
+    const char* user_db_file = nullptr;
     
     get_args(argc, argv, &test_case, user_db_file);
     
@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 
     struct QuadraticEquation user_equation = {0};
     
-    printf("AI quadratic equation solver v0.77 \n");
+    printf("\nAI quadratic equation solver v0.8 \n");
     get_quadratic_equation_coefficients(&user_equation);
     
     solve_quadratic_equation(&user_equation);

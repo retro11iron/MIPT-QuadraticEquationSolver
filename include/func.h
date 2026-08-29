@@ -2,7 +2,7 @@
 #define FUNC_H
 
 
-void get_args(int argc, char* argv[], int* test_case, char* user_db_file);
+void get_args(const int argc, const char* const argv[], int* test_case, const char* user_db_file);
 void get_quadratic_equation_coefficients(struct QuadraticEquation* equation);
 void            solve_quadratic_equation(struct QuadraticEquation* equation);
 void               solve_linear_equation(struct QuadraticEquation* equation);

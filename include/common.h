@@ -1,13 +1,17 @@
+/** @file common.h
+ * @brief Contain all common structs and consts.
+ */
+
 #ifndef COMMON_H
 #define COMMON_H
 
 struct QuadraticEquation {
-    double quadratic_c;
-    double linear_c;
-    double free_c;
-    double x1;
-    double x2;
-    int root_count;
+    double quadratic_c; /**< @brief Quadratic coefficient of equation*/
+    double linear_c; /**< @brief Linear coefficient of equation*/
+    double free_c; /**< @brief Free coefficient of equation*/
+    double x1; /**< @brief First root of equation*/
+    double x2; /**< @brief Second root of equation*/
+    int root_count; /**< @brief Total root count of equation (Only real).*/
 };
 
 enum ROOTS {
@@ -23,5 +27,7 @@ enum CASES {
     ONLY_USERS_TESTS = 2,
     ALL_TESTS = 3,
 };
+
+const int MAX_STR_LEN = 256; 
 
 #endif

@@ -1,12 +1,17 @@
 PROJECT_NAME = solver.exe
 
-.PHONY : clean debug release
+.PHONY : clean debug release docs
 
 debug : ./obj/main.o ./obj/functions.o ./obj/tests.o
 	g++ ./obj/main.o ./obj/functions.o ./obj/tests.o -o $(PROJECT_NAME) -fsanitize=address -g
 
 release : ./obj/main.o ./obj/functions.o ./obj/tests.o
 	g++ ./obj/main.o ./obj/functions.o ./obj/tests.o -o $(PROJECT_NAME)
+
+docs : Doxyfile
+	-rm -rf docs/*
+	doxygen 
+	cd docs/html && python3 -m http.server 8000
 
 ./obj/main.o : ./src/main.cpp
 	g++ -c ./src/main.cpp -o ./obj/main.o

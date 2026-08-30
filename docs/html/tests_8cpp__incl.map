@@ -1,0 +1,13 @@
+<map id="tests/tests.cpp" name="tests/tests.cpp">
+<area shape="rect" id="Node000001" title="Realisation of testing system, that can run default or users (from file) tests." alt="" coords="308,5,425,31"/>
+<area shape="rect" id="Node000002" href="$common_8h.html" title="Contain all common structs and consts." alt="" coords="5,79,160,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="322,33,142,78,141,73,320,28"/>
+<area shape="rect" id="Node000003" href="$func_8h.html" title="Contain functions declarations." alt="" coords="184,79,309,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="349,33,280,74,277,69,346,28"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="333,79,400,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="369,31,369,65,364,65,364,31"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="424,79,499,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="383,29,436,68,433,72,380,33"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="523,79,589,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="398,28,513,71,511,76,396,33"/>
+</map>

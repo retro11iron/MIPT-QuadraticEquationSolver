@@ -1,14 +1,18 @@
+/** @file functions.cpp
+ * @brief Realisation of all functions linked with equation solve
+ */
+
 #include "../include/common.h"
 #include "../include/func.h"
+#include "../include/format.h"
 #include <stdio.h>
-#include <cmath>
 #include <assert.h>
 #include <string.h>
+#include <cmath>
 
 
 const double EPSILON = 1e-5;
 const int MAX_ARGC = 4;
-const int MAX_FILENAME_LEN = 256;
 const char* ALL_TESTS_STRING = "all";
 const char* DEFAULT_TESTS_STRING = "default";
 const char* USERS_TESTS_STRING = "users";
@@ -116,7 +120,7 @@ void get_quadratic_equation_coefficients(struct QuadraticEquation* equation) {
 
     assert(equation != nullptr);
 
-    printf("Please, enter a equation coefficients (ax^2 + bx + c = 0): ");
+    printf("\nPlease, enter a equation coefficients (ax^2 + bx + c = 0): ");
 
     int succesfull_count = scanf("%lf %lf %lf", &equation->quadratic_c, &equation->linear_c, &equation->free_c);
     while (succesfull_count != 3) {
@@ -130,7 +134,7 @@ void get_quadratic_equation_coefficients(struct QuadraticEquation* equation) {
 }
 
 
-void get_args(const int argc, const char* const argv[], int* test_case, const char* user_db_file) {
+void get_args(const int argc, const char* const argv[], int* test_case, const char** user_db_file) {
 
     assert(test_case != nullptr);
     // assert(user_db_file != nullptr);
@@ -173,19 +177,10 @@ void get_args(const int argc, const char* const argv[], int* test_case, const ch
         }
         else {
             if (not(is_user_db_file_written)) {
-                user_db_file = argv[i];
+                *user_db_file = argv[i];
                 is_user_db_file_written = true;
             }
         }
-    }
-
-    if (user_db_file != nullptr) {
-        printf("User db file is %s \n", user_db_file);
-        printf("User test case is %d \n", *test_case);
-    }
-    else {
-        printf("No user file is given... \n");
-        printf("User test case is %d \n", *test_case);
     }
 
     return ;
@@ -211,4 +206,34 @@ void clear_buffer() {
     }
 
     return ;
+}
+
+
+/** @brief Get string from file, scan it and if succesfull solve it and write solution in terminal
+* @param file_pointer pointer to file with equations coefficients */
+void solve_users_equations(FILE* file_pointer) {
+
+    assert(file_pointer != nullptr);
+
+    char line[MAX_STR_LEN] = "";
+    int i = 1;
+
+    while ((fgets(line, MAX_STR_LEN, file_pointer) != NULL)) {
+        struct QuadraticEquation user_equation;
+
+        int succesfull_count = sscanf(line, "%lf %lf %lf",
+                                    &user_equation.quadratic_c, &user_equation.linear_c, &user_equation.free_c);
+        
+        if (succesfull_count != 3) {
+            printf("%s\nUnable to read coefficients in line %d %s \n", FORMAT_RED, i, FORMAT_END);
+        }
+        else {
+            solve_quadratic_equation(&user_equation);
+            printf("\n%lg * x^2  %lg * x  %lg \n", user_equation.quadratic_c, user_equation.linear_c, user_equation.free_c);
+            print_roots(&user_equation);
+        }
+        i++;
+    }
+
+    return ; 
 }

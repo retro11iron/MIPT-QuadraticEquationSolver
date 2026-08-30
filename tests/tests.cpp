@@ -1,18 +1,17 @@
+/** @file tests.cpp
+ * @brief Realisation of testing system, that can run default or users (from file) tests
+ */
+
 #include "../include/common.h"
 #include "../include/func.h"
+#include "../include/format.h"
 #include <stdio.h>
 #include <assert.h>
 #include <cstdlib>
 
-const int DEFAULT_TESTS_COUNT = 10;
-const int MAX_STR_LEN = 256;
-const long MAX_STR_COUNT = 1e8;
-const char* DB_FILE_ADDRES = "./db/test_equations.txt";
-
-const char* FORMAT_GREEN = "\033[32m";
-const char* FORMAT_RED = "\033[31m";
-const char* FORMAT_BLUE = "\033[34m";
-const char* FORMAT_END = "\033[0m";
+static const int DEFAULT_TESTS_COUNT = 10;
+static const long MAX_STR_COUNT = 1e8;
+static const char* DB_FILE_ADDRES = "./db/test_equations.txt";
 
 enum MEMORY_STATUS {
     MEMORY_SUCCESS = 0,
@@ -20,7 +19,7 @@ enum MEMORY_STATUS {
 };
 
 
-const struct QuadraticEquation test_equations[DEFAULT_TESTS_COUNT] = {{1, -5, 6, 2, 3, TWO_ROOTS}, {0, 1, 1, -1, 0, ONE_ROOT}, 
+static const struct QuadraticEquation test_equations[DEFAULT_TESTS_COUNT] = {{1, -5, 6, 2, 3, TWO_ROOTS}, {0, 1, 1, -1, 0, ONE_ROOT}, 
                                                   {1, 0, 1, 0, 0, ZERO_ROOTS}, {1, 1, 0, -1, 0, TWO_ROOTS},
                                                   {0, 0, 1, 0, 0, ZERO_ROOTS}, {1, 0, 0, 0, 0, ONE_ROOT},
                                                   {0, 0, 0, 0, 0, INF_ROOTS}, {1, 1, 0, -1, 0, TWO_ROOTS},
@@ -28,8 +27,7 @@ const struct QuadraticEquation test_equations[DEFAULT_TESTS_COUNT] = {{1, -5, 6,
                                                 };
 
 
-int* tests_results = nullptr;
-// test_results[0] is a count of all tests
+static int* tests_results = nullptr; /**< @brief test_results[0] is a count of all tests */
 
 static void run_user_tests(FILE* file_pointer, int default_tests_count, int user_tests_count);
 static void run_default_tests(const struct QuadraticEquation test_equations[]);
@@ -37,14 +35,10 @@ static int allocate_memory_for_tests_results(int all_tests_count);
 static int get_user_tests_count(FILE* file_pointer);
 static void print_summary(int* test_results);
 static void run_tests(int option);
-// int get_option_from_user();
 
 
 int call_tests(int option) {
 
-    //printf("Quadratic equation solve tester v0.8 \n");
-
-    // int option = get_option_from_user(); 
     run_tests(option);
     print_summary(tests_results);
     free(tests_results);
@@ -93,6 +87,9 @@ static void run_default_tests(const struct QuadraticEquation test_equations[]) {
 
 
 static void run_user_tests(FILE* file_pointer, int default_tests_count, int user_tests_count) {
+
+    assert(file_pointer != nullptr);
+
     char line[MAX_STR_LEN + 1] = "";
     int i = 1;
 
@@ -161,41 +158,6 @@ static void run_tests(int option) {
     }
     }
 }
-
-
-// static int get_option_from_user() {
-
-//     printf("Hi! Do you want to include default test equations? [Y/N] ");
-//     char answer_1 = ' ';
-
-//     if (scanf("%c", &answer_1) && (answer_1 == 'Y')) {
-//         printf("Okay. Do you want to include test equations from file (equations.txt)? [Y/N] ");
-//         char answer_2 = ' ';
-//         clear_buffer();
-        
-//         if (scanf("%c", &answer_2) && (answer_2 == 'Y')) {
-//             printf("\nGot it. Starting all tests... \n \n");
-//             return ALL_TESTS;
-//         }
-//         else {
-//             return ONLY_DEFAULT_TESTS;
-//         }
-//     }
-//     else {
-//         printf("\nOkay. Do you want to include test equations from file (equations.txt)? [Y/N] ");
-//         char answer_3 = ' ';
-//         clear_buffer();
-
-//         if (scanf("%c", &answer_3) && (answer_3 == 'Y')) {
-//             printf("Got it. Starting users tests... \n \n");
-//             return ONLY_USERS_TESTS;
-//         }
-//         else {
-//             return NO_TESTS;
-//         }
-//     }
-
-// }
 
 
 static int get_user_tests_count(FILE* file_pointer) {
